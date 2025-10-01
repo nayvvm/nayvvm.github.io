@@ -12,7 +12,6 @@
       color: #333;
     }
 
-    /* Ícone do menu (hambúrguer) */
     .menu-toggle {
       position: fixed;
       top: 20px;
@@ -55,7 +54,6 @@
       font-size: 18px;
     }
 
-    /* Afastar os itens para baixo */
     .sidebar h3:first-of-type {
       margin-top: 30px;
     }
@@ -107,7 +105,6 @@
       transition: margin-left 0.3s ease;
     }
 
-    /* Move o conteúdo principal quando o menu estiver aberto */
     .sidebar.open ~ .content main {
       margin-left: 270px;
     }
@@ -132,25 +129,20 @@
 </head>
 <body>
 
-  <!-- Ícone de menu -->
   <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
 
-  <!-- Menu Lateral -->
   <div class="sidebar" id="sidebar">
     <h3 onclick="toggleDropdown('trabalhos')">Trabalhos</h3>
     <div id="trabalhos" class="dropdown-content">
-      <a href="trabalhos/trabalho1.pdf" target="_blank">Trabalho 1</a>
-      <a href="trabalhos/trabalho2.pdf" target="_blank">Trabalho 2</a>
+      <a href="trabalhos/trabalho1.html" target="_blank">Trabalho 1</a>
     </div>
 
     <h3 onclick="toggleDropdown('relatorios')">Relatórios</h3>
     <div id="relatorios" class="dropdown-content">
-      <a href="relatorios/lab1.pdf" target="_blank">Relatório 1</a>
-      <a href="relatorios/lab2.pdf" target="_blank">Relatório 2</a>
+      <a href="relatorios/relatorio1.html" target="_blank">Relatório 1</a>
     </div>
   </div>
 
-  <!-- Conteúdo principal -->
   <div class="content">
     <header>
       <h1>Nome do Projeto</h1>
@@ -190,7 +182,6 @@
     </main>
   </div>
 
-  <!-- Scripts -->
   <script>
     function toggleDropdown(id) {
       const el = document.getElementById(id);
