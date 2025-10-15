@@ -171,14 +171,37 @@
         Vídeos com movimentos rápidos
 
       <p>
-        Pelos resultados obtidos, percebemos que,
+        Para os códigos analisados em laboratório, as suas funcionalidades são:
       </p>
+
+      <ol>
+        <li>
+          video_read_from_file: realiza a leitura do arquivo presente em Resources/cars. Ele para se o usuario pressionar a tecla "q"
+        </li>
+
+        <li>
+          video_read_from_image_sequence: Em vez de fazer a leitura do video, realiza a leitura dos arquivos de imagem, que seriam os frames do video em sequencia
+        </li>
+
+        <li>
+          video_read_from_webcam: Recebe um stream de video da webcam conectada, passando o argumento 0 para o vid_capture em vez de um arquivo de sequencia de imagens ou video. Ele para se a webcam for desconectada ou a tecla "q" for pressionada
+        </li>
+
+        <li>
+          video_write_from_webcam: Recebe um stream de video da webcam conectada e escreve em um arquivo "output.avi". Para se a tecla "q" for pressionada ou a webcam for desconectada.
+        </li>
+
+        <li>
+          video_write_to_file: Recebe um video e o converte para .avi em "Resources/output.avi"
+        </li>
+      </ol>
+
     </section>
     
     <section>
       <h2>Conclusões e Comentários Finais</h2>
       <p>
-        Com base nos resultados, podemos concluir que...
+        Com base nos códigos analisados e modificados em laboratório, foi possivel identificar os comandos necessários para receber stream de videos e salvar imagens e videos de arquivos ou da propria webcam.
       </p>
     </section>
 
