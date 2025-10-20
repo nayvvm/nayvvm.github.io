@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Relatório 4</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(to right, #f0f4f8, #d9e4ec);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      background-color: #ffffffcc;
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1001;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #1e3a8a;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -250px; 
+      padding-top: 60px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar h3 {
+      padding: 10px 20px;
+      margin: 0;
+      cursor: pointer;
+      background-color: #1e3a8a;
+      border: none;
+      text-align: left;
+      font-size: 18px;
+    }
+
+    .sidebar h3:first-of-type {
+      margin-top: 30px;
+    }
+
+    .sidebar h3:hover {
+      background-color: #163273;
+    }
+
+    .dropdown-content {
+      display: none;
+      background-color: #2c4a9a;
+      padding-left: 20px;
+    }
+
+    .dropdown-content a {
+      display: block;
+      color: white;
+      padding: 10px 0;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #3a5cb4;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      margin-left: 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    header p {
+      margin: 10px 0 0;
+      font-size: 1.2rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.open ~ .content main {
+      margin-left: 270px;
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    ul.membros {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Relatório 4 - Histogramas e Limiarização</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Introdução</h2>
+      <p>
+        Este relatório tem como objetivo 
+      </p>
+    </section>
+
+    <section>
+      <h2>Fundamentos básicos</h2>
+      <p>
+        fundamentos basicos
+      </p>
+    </section>
+
+    <section>
+      <h2>Materiais e Métodos</h2>
+      <p>
+        metodologia...
+      </p>
+    </section>
+
+    <section>
+      <h2>Resultados e Análises</h2>
+      <p>
+        resultados
+      </p>
+    </section>
+    
+    <section>
+      <h2>Conclusões e Comentários Finais</h2>
+      <p>
+        Com base nos resultados, podemos concluir que...
+      </p>
+    </section>
+
+  </main>
+
+</body>
+</html>
