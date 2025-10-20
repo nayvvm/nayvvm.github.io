@@ -161,13 +161,6 @@
     </section>
 
     <section>
-      <h2>Fundamentos básicos</h2>
-      <p>
-        fundamentos básicos
-      </p>
-    </section>
-
-    <section>
       <h2>Materiais e Métodos</h2>
       <p>
         Foi utilizado o seguinte código para aplicar filtros na mesma imagem tirada através de uma webcam no laboratório. Os filtros aplicados foram Kernel 3x3, 5x5, 7x7, 11x11 para a imagem sem ruído e com ruído pimenta. 
@@ -309,14 +302,30 @@
       <img src="sal_pimenta_11x11.png" width="1000">
 
       <p>
-        Pelos resultados obtidos, percebemos que,
+        Pelos resultados obtidos, percebemos que:
+        1. Filtro da Média<br>
+        Variação com o tamanho do Kernel: Kernel pequeno (3×3) tem a suavização leve, mantém alguns detalhes.
+        Kernel grande (11×11) tem a suavização forte, mas a imagem perde nitidez e definição.<br>
+        Com ruído sal e pimenta: o ruído contém pixels pretos e brancos e a média não consegue eliminá-los totalmente.<br>
+        2. Filtro Gaussiano<br>
+        Variação com o tamanho do kernel: Quanto maior o kernel maior a suavização, mas a suavização é menor que o filtro da média.<br>
+        Com ruído sal e pimenta: O Gaussiano melhora um pouco, os pontos brancos e pretos aparecem mais que o filtro anterior.<br>
+        3. Filtro da Mediana<br>
+        Variação com o tamanho do kernel: O Kernel pequeno (3×3) remove ruído leve. O Kernel grande (7×7 ou 11×11): remove mais ruído, mas começa a borrar algumas regiões.<br>
+        Com ruído sal e pimenta: É o melhor filtro para esse tipo de ruído, remove quase todos os pontos de ruído, mantendo contornos nítidos.<br>
+        4. Filtro Bilateral<br>
+        Variação com o tamanho do kernel: Kernels maiores tornam o efeito de suavização mais evidente, mas mantêm bordas mais definidas que os outros filtros.<br>
+        Com ruído sal e pimenta: Funciona razoavelmente bem, mas não tanto quanto o filtro da mediana.<br>
       </p>
     </section>
     
     <section>
       <h2>Conclusões e Comentários Finais</h2>
       <p>
-        Com base nos resultados, podemos concluir que...
+        A partir da aplicação dos diferentes filtros de suavização — média, gaussiano, mediana e bilateral — com variados tamanhos de kernel (3×3, 5×5, 7×7 e 11×11), foi possível observar de forma clara como cada técnica atua na redução de ruídos e na preservação dos detalhes da imagem.<br>
+        De maneira geral, verificou-se que o aumento do tamanho do kernel provoca uma suavização mais intensa, reduzindo significativamente o ruído, porém com o custo de perda de nitidez e definição dos contornos. Kernels menores (como 3×3) mantêm mais detalhes, enquanto kernels maiores (como 11×11) deixam a imagem mais borrada.<br>
+        Em imagens com ruído sal e pimenta, o filtro da mediana é claramente o mais eficaz.<br>
+        O estudo evidencia que a escolha do filtro e do tamanho do kernel deve considerar o tipo de ruído e o objetivo da filtragem, buscando sempre o equilíbrio entre a suavização desejada e a preservação das características visuais originais da imagem.<br>
       </p>
     </section>
 
