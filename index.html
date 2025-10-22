@@ -121,6 +121,19 @@
       line-height: 1.6;
     }
 
+    /* Estilo para os diagramas de bloco e fluxogramas */
+        pre {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #bdc3c7;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.4;
+            overflow-x: auto; /* Garante que o diagrama não quebre o layout */
+            white-space: pre;
+            font-size: 14px;
+        }
+
     ul.membros {
       padding-left: 20px;
     }
@@ -209,8 +222,170 @@
             </p>
         </div>
 
-       </div>
+      </section>
 
+      <section>
+        <h1>Parte 2: Modelagem Funcional do Sistema (MF)</h1>
+        <h2>Assistente de Culinária Interativo por Gestos</h2>
+
+        <p>A concepção funcional do sistema é baseada em um ciclo de processamento em tempo real, conhecido como <em>loop principal</em>. A cada iteração deste ciclo, o sistema executa uma sequência de captura, processamento, análise e ação. O objetivo é criar um pipeline onde a informação visual (o vídeo do usuário) é transformada em comandos discretos que controlam uma aplicação (o player de vídeo da receita).</p>
+
+        <h2>Diagrama de Blocos Funcional</h2>
+
+        <p>Este diagrama representa os módulos de software e o fluxo de informação entre eles.</p>
+
+        <pre>
+      +------------------+     +------------------------+     +---------------------------+
+      |      CÂMERA      | --> |  1. MÓDULO DE CAPTURA  | --> | 2. MÓDULO DE DETECÇÃO E   |
+      |    (Hardware)    |     |      DE VÍDEO          |     |    RASTREAMENTO DE MÃO    |
+      +------------------+     +------------------------+     +---------------------------+
+                                          |                                |
+                                          | Frame Bruto (Webcam)           | Coordenadas da Mão (Landmarks)
+                                          V                                V
++-------------------------+     +-------------------------+     +---------------------------+
+| 6. MÓDULO DE EXIBIÇÃO   | <-- | 5. CONTROLE DO PLAYER   | <-- | 3. MÓDULO DE RECONHECIMENTO|
+|       (GUI)             |     |    DE VÍDEO             |     |       DE GESTOS           |
+|                         |     +-------------------------+     +---------------------------+
+| - Vídeo da Webcam       |                 | Comando (Ex: PAUSE)           | Comando (Ex: AVANÇAR)
+| - Esqueleto da Mão      |                 |                               |
+| - Feedback (Ex:"PAUSA") |                 V                               |
+| - Vídeo da Receita      |     +-------------------------+                 |
++-------------------------+     | 4. PLAYER DA RECEITA    | <---------------+
+                              |   (Estado e Vídeo)      |
+                              +-------------------------+
+        </pre>
+
+        <h2>Descrição Detalhada dos Blocos Funcionais</h2>
+        <p>Cada bloco do diagrama é descrito abaixo, detalhando suas responsabilidades, informações de entrada, processamento realizado e informações de saída.</p>
+
+        <div>
+            <h3>Bloco 1: Módulo de Captura de Vídeo</h3>
+            <p><strong>Informação de Entrada:</strong> Sinal de vídeo contínuo proveniente do hardware da câmera (webcam).</p>
+            <p><strong>Processamento Realizado:</strong></p>
+            <ol>
+                <li>Interface com o sistema operacional para acessar o dispositivo de câmera.</li>
+                <li>Captura um quadro (frame) individual do fluxo de vídeo a uma taxa de quadros constante (ex: 30 FPS).</li>
+                <li>Converte o quadro capturado em uma estrutura de dados manipulável, tipicamente uma matriz multidimensional de pixels (ex: um array NumPy no Python). O formato de cor padrão é geralmente BGR.</li>
+            </ol>
+            <p><strong>Informação de Saída:</strong> Um único frame de vídeo como uma matriz de pixels (ex: 640x480x3), que serve como a entrada principal para o resto do pipeline de processamento visual.</p>
+        </div>
+
+        <div>
+            <h3>Bloco 2: Módulo de Detecção e Rastreamento de Mão</h3>
+            <p><strong>Informação de Entrada:</strong> Frame de vídeo (matriz de pixels) vindo do <strong>Bloco 1</strong>.</p>
+            <p><strong>Processamento Realizado:</strong></p>
+            <ol>
+                <li>Pré-processamento da imagem: O frame é convertido do espaço de cores BGR para RGB, que é o formato esperado por muitos modelos de machine learning, como o MediaPipe.</li>
+                <li>Inferência do Modelo: O frame RGB é passado para um modelo de visão computacional pré-treinado (ex: MediaPipe Hands) que detecta a presença de mãos na imagem.</li>
+                <li>Extração de Pontos-Chave: Se uma mão é detectada, o modelo calcula e retorna as coordenadas (x, y, z) de 21 pontos-chave, ou <em>landmarks</em>, que formam um "esqueleto" da mão.</li>
+            </ol>
+            <p><strong>Informação de Saída:</strong> Uma estrutura de dados contendo as coordenadas normalizadas (valores entre 0 e 1) de todos os 21 <em>landmarks</em> da mão detectada. Se nenhuma mão for encontrada, a saída é nula ou vazia.</p>
+        </div>
+
+        <div>
+            <h3>Bloco 3: Módulo de Reconhecimento de Gestos</h3>
+            <p><strong>Informação de Entrada:</strong> Coordenadas dos 21 <em>landmarks</em> da mão (vindo do <strong>Bloco 2</strong>). Também pode receber o estado do gesto do frame anterior para detectar movimentos.</p>
+            <p><strong>Processamento Realizado:</strong> Este é o núcleo da lógica do sistema. Ele aplica um conjunto de regras heurísticas para traduzir a geometria e o movimento da mão em um comando.</p>
+            <ol>
+                <li><strong>Análise Estática (Pose):</strong> Verifica a posição relativa dos <em>landmarks</em> em um único frame. Exemplo: Para o gesto "Mão Aberta" (Pausar), o sistema verifica se as pontas dos cinco dedos estão verticalmente acima de suas respectivas juntas inferiores.</li>
+                <li><strong>Análise Dinâmica (Movimento):</strong> Compara a posição da mão (ex: o <em>landmark</em> do pulso) entre o frame atual e os frames anteriores. Exemplo: Para o gesto "Arrastar para a Esquerda" (Avançar), o sistema detecta um deslocamento horizontal negativo rápido e significativo.</li>
+                <li><strong>Gerenciamento de Estado:</strong> Inclui um temporizador de <em>cooldown</em> para evitar que um único gesto longo gere múltiplos comandos.</li>
+            </ol>
+            <p><strong>Informação de Saída:</strong> Um comando discreto e inequívoco, representado como uma string ou enum (ex: <code>COMANDO_PAUSAR</code>, <code>COMANDO_AVANCAR</code>, <code>COMANDO_NENHUM</code>).</p>
+        </div>
+
+        <div>
+            <h3>Bloco 4: Player da Receita</h3>
+            <p><strong>Informação de Entrada:</strong> Comandos discretos (<code>COMANDO_PAUSAR</code>, <code>COMANDO_AVANCAR</code>, <code>COMANDO_RETROCEDER</code>) vindos do <strong>Bloco 3</strong> e <strong>Bloco 5</strong>.</p>
+            <p><strong>Processamento Realizado:</strong> Este bloco gerencia o estado do vídeo da receita.</p>
+            <ol>
+                <li>Mantém o estado atual (ex: <code>reproduzindo</code>, <code>pausado</code>).</li>
+                <li>Mantém o ponteiro para o frame atual do vídeo.</li>
+                <li>Ao receber um comando, altera seu estado. Ex: se recebe <code>COMANDO_PAUSAR</code>, alterna o estado entre <code>reproduzindo</code> e <code>pausado</code>. Se recebe <code>COMANDO_AVANCAR</code>, adianta o ponteiro do frame em um número pré-definido (ex: 150 frames para avançar 5 segundos).</li>
+            </ol>
+            <p><strong>Informação de Saída:</strong> O frame de vídeo atual da receita (se estiver em estado <code>reproduzindo</code>) e o estado atual (para o <strong>Bloco 5</strong>).</p>
+        </div>
+
+        <div>
+            <h3>Bloco 5: Controle do Player de Vídeo</h3>
+            <p><em>(Este bloco atua como o controlador que interpreta os comandos do módulo de gestos e os aplica ao player de vídeo.)</em></p>
+            <p><strong>Informação de Entrada:</strong> Comando discreto vindo do <strong>Bloco 3</strong>.</p>
+            <p><strong>Processamento Realizado:</strong></p>
+            <ol>
+                <li>Recebe o comando (ex: <code>COMANDO_PAUSAR</code>).</li>
+                <li>Envia a instrução correspondente para o <strong>Bloco 4: Player da Receita</strong>.</li>
+                <li>Gera uma mensagem de feedback visual para o usuário (ex: a string "PAUSADO").</li>
+            </ol>
+            <p><strong>Informação de Saída:</strong> Um sinal de feedback visual para o <strong>Bloco 6</strong> e o comando de ação para o <strong>Bloco 4</strong>.</p>
+        </div>
+
+        <div>
+            <h3>Bloco 6: Módulo de Exibição (GUI)</h3>
+            <p><strong>Informação de Entrada:</strong> O frame original da webcam, as coordenadas dos <em>landmarks</em> da mão, o feedback visual do <strong>Bloco 5</strong>, e o frame atual do vídeo da receita do <strong>Bloco 4</strong>.</p>
+            <p><strong>Processamento Realizado:</strong></p>
+            <ol>
+                <li>Compõe a interface final que será mostrada ao usuário.</li>
+                <li>Renderiza o vídeo da webcam em uma área da tela.</li>
+                <li>Desenha o esqueleto da mão (os <em>landmarks</em> e as conexões) sobre a imagem da webcam para dar feedback de que o sistema está "vendo" o usuário.</li>
+                <li>Renderiza o vídeo da receita em outra área da tela.</li>
+                <li>Se houver feedback de um comando (ex: "PAUSADO"), exibe este texto temporariamente sobre a tela.</li>
+            </ol>
+            <p><strong>Informação de Saída:</strong> A imagem final renderizada na tela do computador do usuário.</p>
+        </div>
+
+        <h2>Fluxograma do Loop Principal do Sistema</h2>
+        <p>O fluxograma abaixo detalha a sequência de operações dentro de uma única iteração do loop principal do programa.</p>
+
+        <pre>
+[ Início ]
+    |
+    V
+[ Inicializar Câmera, Player e Modelo de Detecção ]
+    |
+    V
+/-------------------------\
+|      INÍCIO DO LOOP     |
+\-------------------------/
+    |
+    V
+[ 1. Capturar Frame da Webcam ]
+    |
+    V
+[ 2. Detectar Landmarks da Mão no Frame ]
+    |
+    V
+< Mão foi detectada? > --(Não)--> [ Pular para Etapa 5 ]
+    |
+    | (Sim)
+    V
+[ 3. Reconhecer Gesto (Estático ou Dinâmico) ]
+    |
+    V
+< Gesto de Comando foi Reconhecido? > --(Não)--> [ Pular para Etapa 5 ]
+    |
+    | (Sim)
+    V
+[ 4. Traduzir Gesto em Comando e Atualizar Estado do Player ]
+    |
+    V
+[ 5. Preparar Frame da Receita (Lê o próximo ou repete o atual se pausado) ]
+    |
+    V
+[ 6. Renderizar a Saída Visual (Webcam + Esqueleto da Mão + Vídeo da Receita + Feedback) ]
+    |
+    V
+[ 7. Exibir a Saída na Tela ]
+    |
+    V
+< Usuário solicitou para sair (ex: apertou 'q')? > --(Sim)--> [ FIM ]
+    |
+    | (Não)
+    V
+/-------------------------\
+|      FIM DO LOOP        | --> (Volta para o Início do Loop)
+\-------------------------/
+        </pre>
+        
       </section>
 
       <section>
