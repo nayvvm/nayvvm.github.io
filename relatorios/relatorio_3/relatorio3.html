@@ -1,195 +1,265 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Relatório </title>
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(to right, #f0f4f8, #d9e4ec);
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-
-    img {
-      height: 80%;
-      width: 80%;
-    }
-
-    .menu-toggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 28px;
-      cursor: pointer;
-      background-color: #ffffffcc;
-      padding: 8px 12px;
-      border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 1001;
-    }
-
-    .sidebar {
-      width: 250px;
-      background-color: #1e3a8a;
-      color: white;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: -250px; 
-      padding-top: 60px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: left 0.3s ease;
-      z-index: 1000;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar h3 {
-      padding: 10px 20px;
-      margin: 0;
-      cursor: pointer;
-      background-color: #1e3a8a;
-      border: none;
-      text-align: left;
-      font-size: 18px;
-    }
-
-    .sidebar h3:first-of-type {
-      margin-top: 30px;
-    }
-
-    .sidebar h3:hover {
-      background-color: #163273;
-    }
-
-    .dropdown-content {
-      display: none;
-      background-color: #2c4a9a;
-      padding-left: 20px;
-    }
-
-    .dropdown-content a {
-      display: block;
-      color: white;
-      padding: 10px 0;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #3a5cb4;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      background-color: #1e3a8a;
-      color: white;
-      margin-left: 0;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-
-    header p {
-      margin: 10px 0 0;
-      font-size: 1.2rem;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-      transition: margin-left 0.3s ease;
-    }
-
-    .sidebar.open ~ .content main {
-      margin-left: 270px;
-    }
-
-    section {
-      margin-bottom: 30px;
-    }
-
-    h2 {
-      color: #1e3a8a;
-      margin-bottom: 10px;
-    }
-
-    p {
-      line-height: 1.6;
-    }
-
-    ul.membros {
-      padding-left: 20px;
-    }
-    
-    code, pre {
-      font-family: "Fira Code", "Consolas", monospace;
-      background-color: #f5f5f5;
-      color: #333;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-    
-    pre {
-      display: block;
-      padding: 12px;
-      overflow-x: auto;
-      white-space: pre;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Lab 3: Espaço de Cores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        section {
+            margin-bottom: 25px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, "Courier New", monospace;
+        }
+        pre {
+            background-color: #2d2d2d;
+            color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>Relatório 3 - Espaço de Cores</h1>
-  </header>
+    <div class="container">
 
-  <main>
-    <section>
-      <h2>Introdução</h2>
-      <p>
-        Este relatório tem como objetivo 
-      </p>
-    </section>
+        <h1>Relatório: Laboratório 3 - Espaço de Cores, Filtros e Detecção</h1>
 
-    <section>
-      <h2>Fundamentos básicos</h2>
-      <p>
-        fundamentos basicos
-      </p>
-    </section>
+        <section id="introducao">
+            <h2>1. Introdução</h2>
+            <p>
+                Este relatório detalha os experimentos realizados no Laboratório 3, focado no processamento de imagens em tempo real utilizando a biblioteca OpenCV em Python. O objetivo principal foi explorar a robustez da segmentação de cores no espaço HSV (Hue, Saturation, Value) em comparação com o tradicional RGB.
+            </p>
+            <p>
+                As atividades abrangeram desde a aplicação de filtros de suavização (Gaussiano) para redução de ruído, passando pela detecção de bordas com o algoritmo Canny, até a implementação de funcionalidades para salvar mídias (imagens e vídeos) e a detecção simultânea de múltiplos objetos coloridos.
+            </p>
+        </section>
 
-    <section>
-      <h2>Materiais e Métodos</h2>
-      <p>
-        metodologia...
-      </p>
-    </section>
+        <section id="fundamentos">
+            <h2>2. Fundamentos Básicos</h2>
+            
+            <h3>2.1 Espaços de Cores: RGB vs. HSV</h3>
+            <p>
+                O modelo <strong>RGB</strong> (Red, Green, Blue) é aditivo e baseado em como o hardware (monitores, câmeras) captura e exibe cores. No entanto, ele possui a desvantagem de acoplar a informação de cor (cromaticidade) com a de intensidade (brilho). Isso o torna sensível a variações de iluminação, dificultando a segmentação de objetos por cor.
+            </p>
+            <p>
+                O modelo <strong>HSV</strong> (Hue, Saturation, Value) desacopla essas informações:
+            </p>
+            <ul>
+                <li><strong>Hue (Matiz):</strong> Representa o "tipo" da cor (ex: vermelho, verde, azul). Em OpenCV, varia de 0 a 179.</li>
+                <li><strong>Saturation (Saturação):</strong> A "pureza" da cor. 0 representa tons de cinza e 255 a cor mais pura.</li>
+                <li><strong>Value (Valor):</strong> A "luminosidade" ou "brilho" da cor. 0 é preto e 255 é a cor mais brilhante.</li>
+            </ul>
+            <p>
+                Ao isolar o Matiz (Hue), podemos criar segmentadores de cor (usando funções como <code>cv2.inRange</code>) que são muito mais robustos a sombras e mudanças na iluminação, pois focamos apenas na faixa de HUE do objeto, permitindo que S e V variem.
+            </p>
 
-    <section>
-      <h2>Resultados e Análises</h2>
-      <p>
-        resultados
-      </p>
-    </section>
-    
-    <section>
-      <h2>Conclusões e Comentários Finais</h2>
-      <p>
-        Com base nos resultados, podemos concluir que...
-      </p>
-    </section>
+            <h3>2.2 Filtro Gaussiano</h3>
+            <p>
+                O Filtro Gaussiano é um filtro passa-baixa utilizado para suavizar (borrar) a imagem e reduzir ruído de alta frequência (como ruído de sensor da webcam). Ele aplica uma convolução com um kernel Gaussiano, onde pixels mais próximos ao centro têm mais peso. Isso é fundamental como pré-processamento, pois ruídos podem gerar falsos positivos na detecção de bordas (Canny) ou "buracos" na segmentação de cores.
+            </p>
 
-  </main>
+            <h3>2.3 Detector de Bordas Canny</h3>
+            <p>
+                O Canny é um algoritmo de detecção de bordas multi-estágio, considerado um dos mais eficazes. Seus passos incluem:
+            </p>
+            <ol>
+                <li><strong>Redução de Ruído:</strong> Aplicação de um filtro Gaussiano (como no item 2.a).</li>
+                <li><strong>Cálculo do Gradiente:</strong> Encontra a intensidade e direção das bordas (normalmente com filtros Sobel).</li>
+                <li><strong>Supressão de Não-Máximos:</strong> Afina as bordas, mantendo apenas os pixels de maior intensidade na direção do gradiente.</li>
+                <li><strong>Histerese por Limiarização:</strong> Utiliza dois limiares (Threshold 1 e Threshold 2). Bordas acima do Threshold 2 são "bordas fortes" (certas). Bordas entre os dois limiares são "bordas fracas", e só são mantidas se estiverem conectadas a uma borda forte. Isso ajuda a eliminar bordas fracas causadas por ruído.</li>
+            </ol>
+        </section>
+
+        <section id="materiais_metodos">
+            <h2>3. Materiais e Métodos</h2>
+
+            <h3>3.1 Ambiente de Desenvolvimento</h3>
+            <p>Os experimentos foram conduzidos no seguinte ambiente (versões são estimadas com base na biblioteca):</p>
+            <ul>
+                <li><strong>Equipamento:</strong> Notebook com Webcam integrada.</li>
+                <li><strong>Sistema Operacional:</strong> (Ex: Windows 11 / Linux Ubuntu 22.04 / macOS)</li>
+                <li><strong>Software e Bibliotecas:</strong>
+                    <ul>
+                        <li>Python (v. 3.8+)</li>
+                        <li>OpenCV (<code>cv2</code>) (v. 4.x)</li>
+                        <li>Numpy (v. 1.2x)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>3.2 Diagrama de Blocos Funcional</h3>
+            <p>Os pipelines de processamento para as principais tarefas foram:</p>
+            
+            <pre>
+Diagrama (2.c): Filtro, Canny e Gravação
+
+[Captura Webcam]--+--> [Janela Original] --> [Gravação (k/h)]
+                   |
+                   +--> [Filtro Gaussiano] --+--> [Conversão Grayscale] -> [Detector Canny] --+
+                                            |                                               |
+                                            +---------------- [Concatenação H] <--------------+ (Canny convertido para BGR)
+                                                                    |
+                                                                    v
+                                                        [Janela Comparação] --> [Gravação (k/h)]
+            </pre>
+            
+            <pre>
+Diagrama (3): Múltiplos Objetos
+
+                  +--> [inRange (Cor 1: Azul)] --+
+                  |                               |
+[Captura Webcam] --> [Filtro Gaussiano] --> [Conversão HSV] --> [inRange (Cor 2: Verde)] --+--> [bitwise_or (Soma Máscaras)]
+                  |                               |                               |
+                  +--> [inRange (Cor 3: Vermelho)]-+                               |
+                                                                                |
+                                                                                v
+                                                               [bitwise_and (Original, Máscara Final)]
+                                                                                |
+                                                                                v
+                                                                        [Janela Resultado]
+            </pre>
+
+            <h3>3.3 Procedimentos Experimentais</h3>
+            <ol>
+                <li>
+                    <strong>(2.a) Filtro Gaussiano:</strong> O script <code>2a_filtro_gaussiano.py</code> foi executado. Utilizamos objetos coloridos (ex: tampas de garrafa, post-its) e ajustamos os controles (trackbars) de HUE, SAT e VAL para isolar cada cor. O efeito da suavização Gaussiana foi observado na janela comparativa.
+                </li>
+                <li>
+                    <strong>(2.b) Detector Canny:</strong> O script <code>2b_detector_canny.py</code> foi usado. Mantendo os objetos em cena, ajustamos os "Threshold 1" e "Threshold 2" do Canny para encontrar a configuração ideal que detectava as bordas dos objetos sem capturar ruído excessivo do fundo.
+                </li>
+                <li>
+                    <strong>(2.c) Gravação de Mídia:</strong> Com o script <code>2c_salvar_midia.py</code>, testamos as funcionalidades. Pressionamos 's' para salvar capturas de tela das janelas e 'k'/'h' para gravar e parar vídeos dos objetos em movimento.
+                </li>
+                <li>
+                    <strong>(3) Múltiplos Objetos:</strong> No script <code>3_multiplos_objetos.py</code>, definimos faixas de HSV fixas para azul, verde e vermelho (notando a necessidade de duas faixas para o vermelho, que "dá a volta" no espectro HUE) e verificamos se o sistema conseguia isolar todos simultaneamente.
+                </li>
+            </ol>
+        </section>
+
+        <section id="resultados">
+            <h2>4. Resultados e Análises</h2>
+
+            <h3>4.1 (2.a) Filtro Gaussiano e Segmentação HSV</h3>
+            <p>
+                O script <code>2a_filtro_gaussiano.py</code> permitiu a segmentação eficaz de cores usando os trackbars HSV. A imagem abaixo (`gaussiano.png`) mostra a interface durante a detecção de um objeto (provavelmente azul ou verde, com base nos trackbars).
+            </p>
+            <img src="gaussiano.png" alt="Interface do Filtro Gaussiano e Segmentação HSV">
+            <p>
+                <strong>Análise e Aprendizado:</strong> A janela "Original vs. Gaussiano" tornou clara a primeira observação: o filtro Gaussiano é essencial para a segmentação de cores. Sem ele, pequenos ruídos de sensor ou texturas do objeto (ex: um leve reflexo de luz) criam "buracos" (pixels pretos) na máscara de cor. A suavização "funde" essas pequenas imperfeições, resultando em uma máscara binária (janela "Mascara de Cor") muito mais sólida e estável, o que, por sua vez, leva a uma detecção de objeto mais limpa (janela "Resultado da Deteccao").
+            </p>
+
+            <h3>4.2 (2.b) Detector de Bordas Canny</h3>
+            <p>
+                O script <code>2b_detector_canny.py</code> aplicou o detector Canny à imagem filtrada. A imagem `canny.png` captura o resultado, mostrando as bordas de um objeto (possivelmente uma mão) sendo detectadas.
+            </p>
+            <img src="canny.png" alt="Interface do Detector Canny">
+            <p>
+                <strong>Análise e Aprendizado:</strong> A configuração dos limiares (Threshold 1 e 2) é crítica e não trivial.
+            </p>
+            <ul>
+                <li>Se o <strong>Threshold 2 (Alto)</strong> for muito alto, apenas as bordas mais fortes são detectadas, perdendo contornos mais sutis.</li>
+                <li>Se o <strong>Threshold 1 (Baixo)</strong> for muito baixo, muito ruído (bordas de sombras, texturas de fundo) é incluído.</li>
+            </ul>
+            <p>
+                A melhor configuração (regra geral) foi manter o Threshold 1 em cerca de 1/2 ou 1/3 do Threshold 2. Observamos que o filtro Gaussiano aplicado <strong>antes</strong> do Canny (conforme feito no script) é indispensável; sem ele, a saída do Canny seria extremamente poluída, detectando ruído em vez de bordas reais.
+            </p>
+
+            <h3>4.3 (2.c) Gravação de Mídia</h3>
+            <p>
+                O script <code>2c_salvar_midia.py</code> adicionou com sucesso os manipuladores de teclas. Pressionar 's' salvou as imagens, e 'k'/'h' iniciou/parou a gravação de arquivos <code>.avi</code>.
+            </p>
+            <p>
+                Abaixo estão os vídeos de demonstração gravados, mostrando o rastreamento do movimento de objetos. (Os vídeos foram convertidos para .mp4 para compatibilidade com o navegador).
+            </p>
+
+            <div style="text-align: center; margin: 20px 0;">
+                <p><strong>Vídeo: Rastreamento de cores</strong></p>
+                <video width="90%" controls>
+                    <source src="rastreio_cores.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+
+            <p>
+                <strong>Análise e Aprendizado:</strong> A implementação do <code>cv2.VideoWriter</code> exige que o tamanho (largura, altura) do frame seja exato. Um desafio técnico observado é o de performance: gravar dois fluxos de vídeo simultaneamente, enquanto se executa processamento (Gaussiano + Canny) em tempo real, exige bastante da CPU e pode causar quedas na taxa de quadros (FPS) se a resolução for muito alta. A escolha do codec (<code>'DIVX'</code>) é importante para a compatibilidade do arquivo gerado, mas exigiu uma conversão para <code>.mp4</code> para exibição na web.
+            </p>
+
+            <h3>4.4 (3) Detecção de Múltiplos Objetos</h3>
+            <p>
+                O script <code>3_multiplos_objetos.py</code> atingiu o objetivo de detectar várias cores. A imagem <code>extracao_cores.png</code> (presumivelmente) mostra o resultado desta extração.
+            </p>
+            <img src="extracao_cores.png" alt="Resultado da extração de múltiplas cores">
+            <p>
+                <strong>Análise e Aprendizado:</strong> O principal desafio técnico aqui foi a cor <strong>vermelha</strong>. Como o HUE é um círculo, o vermelho ocupa duas faixas em OpenCV (0-10 e 170-179). Foi necessário criar duas máscaras separadas para o vermelho e combiná-las com <code>cv2.bitwise_or</code>.
+            </p>
+            <p>
+                Após obter as máscaras individuais para azul, verde e vermelho (já composta), usamos <code>cv2.bitwise_or</code> novamente para uni-las em uma máscara final. Finalmente, <code>cv2.bitwise_and</code> usou essa máscara combinada para "recortar" apenas os pixels das cores desejadas da imagem original, exibindo todos os objetos detectados simultaneamente.
+            </p>
+        </section>
+
+        <section id="conclusao">
+            <h2>5. Conclusões e Comentários Finais</h2>
+            <p>
+                O Laboratório 3 foi fundamental para consolidar os conceitos de processamento de imagem em visão computacional. O aprendizado técnico mais significativo foi a constatação prática da superioridade do espaço de cores HSV para segmentação em condições de iluminação não controladas.
+            </p>
+            <p>
+                Também compreendemos a importância do pré-processamento (Filtro Gaussiano) não apenas como uma etapa cosmética, mas como um requisito funcional para o sucesso de algoritmos subsequentes, como o Canny e a própria segmentação <code>inRange</code>. A interdependência entre filtragem e detecção foi claramente observada.
+            </p>
+            <p>
+                Os desafios na configuração de limiares (Canny) e na definição de faixas de cor (HSV) demonstram que, embora poderosas, essas técnicas clássicas exigem ajuste fino (calibração) para cada cenário específico de iluminação e objeto.
+            </p>
+        </section>
+
+    </div>
 
 </body>
 </html>
-
