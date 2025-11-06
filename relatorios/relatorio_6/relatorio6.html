@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório do Projeto: Detecção de Features</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        h1, h2, h3 {
+            color: #004a99;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.2em;
+            border-bottom: 2px solid #004a99;
+        }
+        h2 {
+            margin-top: 40px;
+            font-size: 1.8em;
+        }
+        h3 {
+            font-size: 1.4em;
+            color: #0066cc;
+            border-bottom: 1px dashed #ccc;
+        }
+        p, li {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .code-snippet {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border: 1px solid #ccc;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-radius: 5px;
+            overflow-x: auto; /* Garante rolagem se o código for muito largo */
+            white-space: pre-wrap; /* Mantém a formatação do código */
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            text-align: center;
+            margin: 25px 0;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        figure {
+            margin: 10px;
+            width: 45%;
+            min-width: 250px;
+        }
+        img, video {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        figcaption {
+            font-style: italic;
+            color: #555;
+            margin-top: 5px;
+        }
+        .note {
+            background: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Relatório do Projeto: Detecção de Features (Corners)</h1>
+        
+        <p><b>Integrantes:</b> [Nome do Integrante 1], [Nome do Integrante 2], ...</p>
+        
+        <h2>Introdução</h2>
+        <p>
+            Este relatório documenta o desenvolvimento de programas em C++ com a biblioteca OpenCV para explorar técnicas de detecção de features. O projeto foi estruturado em três partes: (1) análise de imagens estáticas, (2) processamento em tempo real com webcam, e (3) pesquisa de aplicações práticas.
+        </p>
+        <p>
+            Os detectores de features focais foram o <strong>Shi-Tomasi (Good Features to Track)</strong>, um detector de cantos robusto, e o <strong>ORB (Oriented FAST and Rotated BRIEF)</strong>, um detector de keypoints mais geral e rápido.
+        </p>
+
+        <h2>(1) Detecção de Features em Imagens Estáticas</h2>
+        <p>
+            O primeiro programa, <code>shi-tomasi_e_orb.c</code>, foi desenvolvido para carregar uma imagem estática (<code>messi5.jpg</code>), aplicar os detectores Shi-Tomasi e ORB, desenhar os resultados e salvar as imagens processadas.
+        </p>
+        
+        <h3>Metodologia e Implementação</h3>
+        <p>
+            O programa primeiro carrega a imagem e a converte para escala de cinza, um requisito para ambos os detectores.
+        </p>
+        <ul>
+            <li>
+                <strong>Shi-Tomasi:</strong> Foi implementado usando a função <code>goodFeaturesToTrack</code>. Os principais parâmetros utilizados no código foram:
+                <ul>
+                    <li><code>maxCantos</code>: 100</li>
+                    <li><code>qualityLevel</code>: 0.01</li>
+                    <li><code>minDistance</code>: 10</li>
+                    <li><code>useHarrisDetector</code>: false (usando a métrica Shi-Tomasi)</li>
+                </ul>
+            </li>
+            <li>
+                <strong>ORB:</strong> Foi implementado criando uma instância <code>Ptr&lt;ORB&gt;</code> com <code>ORB::create(500)</code>, buscando até 500 features. Os keypoints detectados foram desenhados com <code>drawKeypoints</code>.
+            </li>
+        </ul>
+
+        <h3>Resultados (Imagens Estáticas)</h3>
+        <p>Os resultados visuais da execução do programa <code>shi-tomasi_e_orb.c</code> na imagem <code>messi5.jpg</code> estão abaixo:</p>
+        
+        <div class="image-container">
+            <figure>
+                <img src="messi5.jpg" alt="Imagem Original">
+                <figcaption>Imagem Original (messi5.jpg)</figcaption>
+            </figure>
+            <figure>
+                <img src="resultado_shi-tomasi.jpg" alt="Resultado Shi-Tomasi">
+                <figcaption>Resultado com Shi-Tomasi (círculos verdes)</figcaption>
+            </figure>
+            <figure>
+                <img src="resultado_orb.jpg" alt="Resultado ORB">
+                <figcaption>Resultado com ORB (círculos vermelhos)</figcaption>
+            </figure>
+        </div>
+        
+        <p><strong>Análise (Imagens Estáticas):</strong></p>
+        <ul>
+            <li>
+                <strong>Shi-Tomasi (verde):</strong> O detector foi muito eficaz em identificar "cantos" fortes e bem definidos. Ele localizou pontos de alto contraste e mudança de gradiente, como os cantos dos olhos, o nariz, as bordas da camisa, os gomos da bola e até mesmo "cantos" na grama. Os pontos são bem distribuídos e não se sobrepõem, graças ao parâmetro <code>minDistance</code>.
+            </li>
+            <li>
+                <strong>ORB (vermelho):</strong> O ORB detectou um número maior de "keypoints" (500), mas eles se concentraram em áreas de alta textura. Note como o rosto, a camisa e a bola têm uma densidade muito maior de pontos. O ORB não se limita a "cantos", mas busca qualquer patch de imagem que seja único e detectável em diferentes escalas e rotações.
+            </li>
+        </ul>
+
+        <h2>(2) Detecção em Tempo Real com Webcam</h2>
+        <p>
+            O segundo programa, <code>shi-tomasi_webcam.c</code>, adaptou o código anterior para processar um fluxo de vídeo ao vivo da webcam (<code>VideoCapture(0)</code>).
+        </p>
+
+        <h3>Funcionalidades do Programa</h3>
+        <p>
+            O programa opera em um loop contínuo, capturando, processando e exibindo frames. Ele inclui as seguintes funcionalidades interativas, controladas pelo teclado (via <code>waitKey(1)</code>):
+        </p>
+        <ul>
+            <li><strong>Tecla '1':</strong> Ativa o modo de detecção Shi-Tomasi.</li>
+            <li><strong>Tecla '2':</strong> Ativa o modo de detecção ORB.</li>
+            <li><strong>Tecla 's':</strong> Salva um "snapshot" (captura de tela) do frame atual.</li>
+            <li><strong>Tecla 'h' / 'k':</strong> Inicia e para a gravação de um clipe de vídeo (`.avi`).</li>
+            <li><strong>Tecla 'q' / ESC:</strong> Encerra o programa.</li>
+        </ul>
+        <p>
+            Um indicador visual "GRAVANDO" pisca na tela quando a gravação de vídeo está ativa.
+        </p>
+
+        <h3>Resultados dos Experimentos (Vídeo)</h3>
+        <p>
+            Os experimentos solicitados foram registrados no arquivo <code>video.mp4</code>. O vídeo demonstra a eficácia de ambos os detectores em tempo real.
+        </p>
+        
+        <div class="image-container">
+            <video src="video.mp4" controls>
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+            <figcaption>Vídeo completo <code>video.mp4</code> demonstrando os experimentos.</figcaption>
+        </div>
+
+        <p><strong>Análise (Integrantes):</strong></p>
+        <ul>
+            <li>
+                <strong>Shi-Tomasi:</strong> Mostrou-se muito bom em rastrear features estáveis no rosto, como os cantos dos olhos e da boca. Também detectou consistentemente os cantos da janela e do monitor ao fundo. Os pontos são estáveis e fáceis de rastrear visualmente.
+            </li>
+            <li>
+                <strong>ORB:</strong> Detectou uma "nuvem" de pontos, especialmente em áreas de textura como cabelo e barba (visto claramente no integrante em 00:36). Embora mais numerosos, esses pontos pareciam "piscar" (aparecer e desaparecer) mais do que os cantos do Shi-Tomasi, tornando-os individualmente menos estáveis para rastreamento simples, mas coletivamente úteis para reconhecimento.
+            </li>
+        </ul>
+
+        <p><strong>Análise (Xadrez):</strong></p>
+        <p>
+            Este foi o experimento mais revelador sobre a diferença entre os detectores:
+        </p>
+        <ul>
+            <li>
+                <strong>Shi-Tomasi (vídeo em 01:03):</strong> O resultado foi excepcional. O detector identificou <strong>exclusivamente os cantos internos</strong> do tabuleiro de xadrez. Ele ignorou as texturas e se concentrou perfeitamente nas interseções das linhas pretas e brancas, que são "cantos" geométricos ideais.
+            </li>
+            <li>
+                <strong>ORB (vídeo em 01:12):</strong> O ORB, por outro lado, ignorou a maioria dos cantos geométricos. Em vez disso, ele detectou keypoints *dentro* das áreas texturizadas (como a superfície dos quadrados ou a madeira da borda), mas não foi eficaz em isolar as interseções.
+            </li>
+        </ul>
+
+        <h2>(3) Pesquisa: Aplicações Práticas da Detecção de Corners</h2>
+        <p>
+            A detecção de corners (cantos) é uma das técnicas fundamentais da Visão Computacional, servindo como bloco de construção para tarefas de nível superior.
+        </p>
+
+        <h3>Exemplos de Aplicações Práticas</h3>
+        <ul>
+            <li>
+                <strong>Calibração de Câmeras:</strong> Como visto em nosso experimento com o tabuleiro de xadrez, a detecção precisa dos cantos de um padrão conhecido é a base para a calibração de câmeras. Esse processo permite ao computador entender os parâmetros da lente (distorção) e a posição da câmera no mundo, sendo essencial para qualquer medição 3D precisa.
+            </li>
+            <li>
+                <strong>Rastreamento de Objetos (Optical Flow):</strong> Detectores como o Shi-Tomasi (cujo nome original é "Good Features to Track") são usados para encontrar pontos robustos que podem ser rastreados de um frame para o outro. Isso é usado para análise de movimento, estabilização de vídeo e compressão de vídeo.
+            </li>
+            <li>
+                <strong>Criação de Panoramas (Image Stitching):</strong> Para juntar várias fotos em um panorama, o software precisa encontrar pontos correspondentes em imagens sobrepostas. Cantos robustos são excelentes para essa tarefa de "matching".
+            </li>
+            <li>
+                <strong>SLM (Simultaneous Localization and Mapping):</strong> Robôs e carros autônomos usam a detecção de features (cantos e keypoints) do ambiente para construir um mapa e, simultaneamente, localizar-se dentro desse mapa.
+            </li>
+            <li>
+                <strong>Realidade Aumentada (AR):</strong> Para sobrepor um objeto 3D de forma realista em um vídeo ao vivo, o sistema precisa "ancorar" o objeto em uma superfície. Ele faz isso detectando features estáveis no mundo real, como os cantos de uma mesa ou do chão.
+            </li>
+        </ul>
+
+        <div class="note">
+            <h3>Experimento Prático do Projeto (Calibração)</h3>
+            <p>
+                O experimento mais direto que realizamos foi o da <strong>Parte 2, com o tabuleiro de xadrez</strong>.
+            </p>
+            <p>
+                A demonstração do detector <strong>Shi-Tomasi</strong> (vídeo em 01:03) identificando perfeitamente os cantos internos do tabuleiro é, na prática, a primeira etapa exata do processo de <strong>calibração de câmera</strong>. Funções do próprio OpenCV, como <code>findChessboardCorners</code>, são otimizadas para essa tarefa específica, que depende de encontrar esses pontos de interseção com alta precisão para resolver a geometria da câmera.
+            </p>
+        </div>
+        
+        <h2>Conclusão</h2>
+        <p>
+            Este projeto permitiu a implementação e comparação prática de dois tipos distintos de detectores de features. O <strong>Shi-Tomasi</strong> provou ser um detector de "cantos" superior, ideal para tarefas que dependem de estabilidade geométrica, como calibração e rastreamento. O <strong>ORB</strong> mostrou-se um detector de "keypoints" mais geral, focado em criar descritores únicos para áreas texturizadas, sendo mais adequado para reconhecimento e matching de objetos.
+        </p>
+        <p>
+            A transição de imagens estáticas para o processamento em tempo real com a webcam solidificou a compreensão dos desafios de performance e a importância da interatividade para testar e validar os algoritmos em diferentes cenários (pessoas, objetos, texturas e padrões geométricos).
+        </p>
+        
+        <h2>Apêndice: Códigos-Fonte</h2>
+
+        <h3>(1) shi-tomasi_e_orb.c</h3>
+        <div class="code-snippet">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+// Headers principais do OpenCV
+#include &lt;opencv2/core.hpp&gt;       // Estruturas de dados básicas (Mat)
+#include &lt;opencv2/highgui.hpp&gt;    // Funções de UI (imread, imshow, waitKey)
+#include &lt;opencv2/imgproc.hpp&gt;    // Processamento de imagem (cvtColor, circle)
+#include &lt;opencv2/features2d.hpp&gt; // Detectores de features (ORB, drawKeypoints)
+
+// Use os namespaces para facilitar
+using namespace cv;
+using namespace std;
+
+// Protótipos das funções que vamos criar
+void detectarShiTomasi(Mat& img, Mat& imgGray);
+void detectarORB(Mat& img, Mat& imgGray);
+
+int main()
+{
+    // --- 1. Carregar a Imagem ---
+    string nomeArquivo = "messi5.jpg"; 
+    Mat imagem = imread(nomeArquivo, IMREAD_COLOR);
+
+    if (imagem.empty())
+    {
+        cout &lt;&lt; "Erro: Nao foi possivel carregar a imagem: " &lt;&lt; nomeArquivo &lt;&lt; endl;
+        return -1;
+    }
+
+    // --- 2. Preparar Imagem ---
+    Mat imagemCinza;
+    cvtColor(imagem, imagemCinza, COLOR_BGR2GRAY);
+
+    // --- 3. Executar Experimentos ---
+    
+    // (A) Shi-Tomasi Corner Detector
+    Mat imagemShiTomasi = imagem.clone();
+    detectarShiTomasi(imagemShiTomasi, imagemCinza);
+
+    // (B) Feature Detector (ORB)
+    Mat imagemORB = imagem.clone();
+    detectarORB(imagemORB, imagemCinza);
+
+    // --- 4. Exibir Resultados ---
+    imshow("Resultado (A) Shi-Tomasi", imagemShiTomasi);
+    imshow("Resultado (B) ORB", imagemORB);
+
+    cout &lt;&lt; "Resultados salvos como 'resultado_shi-tomasi.jpg' e 'resultado_orb.jpg'" &lt;&lt; endl;
+    cout &lt;&lt; "Pressione qualquer tecla para fechar as janelas..." &lt;&lt; endl;
+
+    waitKey(0); 
+
+    return 0;
+}
+
+void detectarShiTomasi(Mat& img, Mat& imgGray)
+{
+    vector&lt;Point2f&gt; cantos;
+    int maxCantos = 100;
+    double qualityLevel = 0.01;
+    double minDistance = 10;
+    Mat mask;
+    int blockSize = 3;
+    bool useHarrisDetector = false;
+    double k = 0.04;
+
+    goodFeaturesToTrack(imgGray, cantos, maxCantos, qualityLevel, minDistance,
+                        mask, blockSize, useHarrisDetector, k);
+
+    cout &lt;&lt; "(A) Shi-Tomasi: Detectados " &lt;&lt; cantos.size() &lt;&lt; " cantos." &lt;&lt; endl;
+
+    int raio = 4;
+    for (size_t i = 0; i &lt; cantos.size(); i++)
+    {
+        circle(img, cantos[i], raio, Scalar(0, 255, 0), 2, LINE_AA);
+    }
+    imwrite("resultado_shi-tomasi.jpg", img);
+}
+
+void detectarORB(Mat& img, Mat& imgGray)
+{
+    vector&lt;KeyPoint&gt; keypoints;
+    int nFeatures = 500;
+    Ptr&lt;ORB&gt; orb = ORB::create(nFeatures);
+
+    orb-&gt;detect(imgGray, keypoints);
+
+    cout &lt;&lt; "(B) ORB: Detectados " &lt;&lt; keypoints.size() &lt;&lt; " keypoints." &lt;&lt; endl;
+    
+    Mat imgComKeypoints;
+    drawKeypoints(img, keypoints, imgComKeypoints, Scalar(0, 0, 255),
+                  DrawMatchesFlags::DEFAULT); 
+
+    imgComKeypoints.copyTo(img);
+    imwrite("resultado_orb.jpg", img);
+}
+        </div>
+
+        <h3>(2) shi-tomasi_webcam.c</h3>
+        <div class="code-snippet">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+// Headers principais do OpenCV
+#include &lt;opencv2/core.hpp&gt;
+#include &lt;opencv2/highgui.hpp&gt;
+#include &lt;opencv2/imgproc.hpp&gt;
+#include &lt;opencv2/features2d.hpp&gt;
+#include &lt;opencv2/videoio.hpp&gt; 
+
+// Use os namespaces
+using namespace cv;
+using namespace std;
+
+// --- Funções de Detecção ---
+void detectarShiTomasi_Webcam(Mat& img, Mat& imgGray)
+{
+    vector&lt;Point2f&gt; cantos;
+    int maxCantos = 150;
+    double qualityLevel = 0.01;
+    double minDistance = 10;
+    int blockSize = 3;
+    goodFeaturesToTrack(imgGray, cantos, maxCantos, qualityLevel, minDistance, Mat(), blockSize, false);
+    for (size_t i = 0; i &lt; cantos.size(); i++)
+    {
+        circle(img, cantos[i], 4, Scalar(0, 255, 0), 2, LINE_AA);
+    }
+}
+
+void detectarORB_Webcam(Mat& img, Mat& imgGray, Ptr&lt;ORB&gt;& orbDetector)
+{
+    vector&lt;KeyPoint&gt; keypoints;
+    orbDetector-&gt;detect(imgGray, keypoints);
+    drawKeypoints(img, keypoints, img, Scalar(0, 0, 255), DrawMatchesFlags::DEFAULT);
+}
+
+// --- Função Principal ---
+int main()
+{
+    // --- 1. Abrir a Webcam ---
+    VideoCapture cap(0); 
+
+    if (!cap.isOpened())
+    {
+        cout &lt;&lt; "Erro: Nao foi possivel abrir a webcam." &lt;&lt; endl;
+        return -1;
+    }
+
+    cout &lt;&lt; "Webcam aberta com sucesso." &lt;&lt; endl;
+    cout &lt;&lt; "Pressione '1' para Shi-Tomasi." &lt;&lt; endl;
+    cout &lt;&lt; "Pressione '2' para ORB." &lt;&lt; endl;
+    cout &lt;&lt; "-----------------------------------" &lt;&lt; endl;
+    cout &lt;&lt; "Pressione 's' para Salvar Snapshot (foto)." &lt;&lt; endl;
+    cout &lt;&lt; "Pressione 'h' para Iniciar Gravacao." &lt;&lt; endl;
+    cout &lt;&lt; "Pressione 'k' para Parar Gravacao." &lt;&lt; endl;
+    cout &lt;&lt; "-----------------------------------" &lt;&lt; endl;
+    cout &lt;&lt; "Pressione 'q' ou ESC para sair." &lt;&lt; endl;
+
+    // --- 2. Inicializar Recursos ---
+    Ptr&lt;ORB&gt; orb = ORB::create(500);
+    char modo = '1';
+    Mat frame, frameCinza;
+
+    VideoWriter videoWriter;
+    bool isRecording = false;
+    int snapshotCounter = 0;
+    int videoCounter = 0;
+    Size frameSize;
+    double fpsGravacao = 20.0;
+
+    // --- 3. Loop de Captura e Processamento ---
+    while (true)
+    {
+        cap.read(frame);
+        if (frame.empty())
+        {
+            cout &lt;&lt; "Erro: Frame vazio." &lt;&lt; endl;
+            break;
+        }
+
+        cvtColor(frame, frameCinza, COLOR_BGR2GRAY);
+        string textoModo;
+
+        // --- 4. Aplicar Detector ---
+        if (modo == '1')
+        {
+            detectarShiTomasi_Webcam(frame, frameCinza);
+            textoModo = "Modo: [1] Shi-Tomasi";
+        }
+        else if (modo == '2')
+        {
+            detectarORB_Webcam(frame, frameCinza, orb);
+            textoModo = "Modo: [2] ORB";
+        }
+
+        // --- 5. Exibir Informações na Tela ---
+        putText(frame, textoModo, Point(10, 25), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 0), 2);
+        putText(frame, "Pressione 'q' para sair", Point(10, 50), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 0), 2);
+
+        if (isRecording)
+        {
+            bool blink = ((int)(getTickCount() / getTickFrequency()) % 2) == 0;
+            if (blink)
+            {
+                circle(frame, Point(frame.cols - 30, 30), 10, Scalar(0, 0, 255), -1);
+            }
+            putText(frame, "GRAVANDO", Point(frame.cols - 130, 35), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 255), 2);
+        }
+
+        // --- 6. Mostrar o Resultado ---
+        imshow("Webcam - Lab 6 (Experimento 2)", frame);
+
+        // --- 7. Aguardar Interação do Usuário ---
+        int key = waitKey(1);
+        if (key == 'q' || key == 27) { break; }
+        else if (key == '1') { modo = '1'; }
+        else if (key == '2') { modo = '2'; }
+        else if (key == 's')
+        {
+            string filename = "snapshot_" + to_string(snapshotCounter) + ".png";
+            imwrite(filename, frame);
+            cout &lt;&lt; "Snapshot salvo: " &lt;&lt; filename &lt;&lt; endl;
+            snapshotCounter++;
+        }
+        else if (key == 'h')
+        {
+            if (!isRecording)
+            {
+                frameSize = frame.size();
+                string videoFilename = "gravacao_" + to_string(videoCounter) + ".avi";
+                videoWriter.open(videoFilename, VideoWriter::fourcc('M', 'J', 'P', 'G'), fpsGravacao, frameSize, true);
+
+                if (videoWriter.isOpened())
+                {
+                    isRecording = true;
+                    videoCounter++;
+                    cout &lt;&lt; "Gravacao iniciada: " &lt;&lt; videoFilename &lt;&lt; endl;
+                }
+                else
+                {
+                    cout &lt;&lt; "Erro: Nao foi possivel iniciar a gravacao." &lt;&lt; endl;
+                }
+            }
+        }
+        else if (key == 'k')
+        {
+            if (isRecording)
+            {
+                isRecording = false;
+                videoWriter.release();
+                cout &lt;&lt; "Gravacao parada. Arquivo salvo." &lt;&lt; endl;
+            }
+        }
+
+        if (isRecording)
+        {
+            videoWriter.write(frame);
+        }
+    }
+
+    // --- 8. Limpeza ---
+    if (isRecording)
+    {
+        videoWriter.release();
+    }
+    cap.release();
+    destroyAllWindows();
+
+    return 0;
+}
+        </div>
+
+    </div>
+
+</body>
+</html>
