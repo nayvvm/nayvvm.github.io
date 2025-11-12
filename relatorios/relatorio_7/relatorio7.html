@@ -165,28 +165,28 @@
         Foi utilizado o seguinte código para a identificação dos rostos da imagem já baixada na máquina.
       </p>
       <pre><code>
-        #include <opencv2/opencv.hpp>
-        #include <iostream>
+        #include &lt;opencv2/opencv.hpp&gt;
+        #include &lt;iostream&gt;
 
         using namespace cv;
         using namespace std;
 
         int main() {
 
-            vector<string> imageFiles = {
+            vector&lt;string&gt; imageFiles = {
                 "grupo.png"
             };
 
             CascadeClassifier face_cascade;
             if (!face_cascade.load("haarcascade_frontalface_default.xml")) {
-                cerr << "Erro ao carregar o modelo XML!" << endl;
+                cerr &lt;&lt; "Erro ao carregar o modelo XML!" &lt;&lt; endl;
                 return -1;
             }
 
-            for (const auto &filename : imageFiles) {
+            for (const auto &amp;filename : imageFiles) {
                 Mat image = imread(filename);
                 if (image.empty()) {
-                    cerr << "Erro ao carregar a imagem: " << filename << endl;
+                    cerr &lt;&lt; "Erro ao carregar a imagem: " &lt;&lt; filename &lt;&lt; endl;
                     continue;
                 }
 
@@ -194,21 +194,21 @@
                 cvtColor(image, gray, COLOR_BGR2GRAY);
                 equalizeHist(gray, gray);
 
-                vector<Rect> faces;
+                vector&lt;Rect&gt; faces;
                 face_cascade.detectMultiScale(gray, faces, 1.1, 5, 0, Size(30, 30));
 
-                for (size_t i = 0; i < faces.size(); i++) {
+                for (size_t i = 0; i &lt; faces.size(); i++) {
                     rectangle(image, faces[i], Scalar(0, 255, 0), 2);
                 }
 
                 imshow("Detecção de Rosto - " + filename, image);
 
-                cout << "Pressione 's' para salvar ou qualquer outra tecla para continuar..." << endl;
+                cout &lt;&lt; "Pressione 's' para salvar ou qualquer outra tecla para continuar..." &lt;&lt; endl;
                 char c = (char)waitKey(0);
                 if (c == 's' || c == 'S') {
                     string output = "detect_" + filename;
                     imwrite(output, image);
-                    cout << "Imagem salva como: " << output << endl;
+                    cout &lt;&lt; "Imagem salva como: " &lt;&lt; output &lt;&lt; endl;
                 }
                 destroyAllWindows();
             }
@@ -220,8 +220,8 @@
         Já este código para a identificação dos rostos através da webcam. Basta clicar em "s" ou "S" para salvar a imagem.
       </p>
       <pre><code>
-        #include <opencv2/opencv.hpp>
-        #include <iostream>
+        #include &lt;opencv2/opencv.hpp&gt;
+        #include &lt;iostream&gt;
 
         using namespace cv;
         using namespace std;
@@ -230,30 +230,30 @@
 
             VideoCapture cap(0);
             if (!cap.isOpened()) {
-                cerr << "Erro ao abrir a webcam!" << endl;
+                cerr &lt;&lt; "Erro ao abrir a webcam!" &lt;&lt; endl;
                 return -1;
             }
 
             CascadeClassifier face_cascade;
             if (!face_cascade.load("haarcascade_frontalface_default.xml")) {
-                cerr << "Erro ao carregar o modelo XML!" << endl;
+                cerr &lt;&lt; "Erro ao carregar o modelo XML!" &lt;&lt; endl;
                 return -1;
             }
 
-            cout << "Pressione 's' para salvar imagem, 'q' para sair." << endl;
+            cout &lt;&lt; "Pressione 's' para salvar imagem, 'q' para sair." &lt;&lt; endl;
 
             while (true) {
                 Mat frame, gray;
-                cap >> frame;
+                cap &gt;&gt; frame;
                 if (frame.empty()) break;
 
                 cvtColor(frame, gray, COLOR_BGR2GRAY);
                 equalizeHist(gray, gray);
 
-                vector<Rect> faces;
+                vector&lt;Rect&gt; faces;
                 face_cascade.detectMultiScale(gray, faces, 1.1, 5, 0, Size(30, 30));
 
-                for (size_t i = 0; i < faces.size(); i++) {
+                for (size_t i = 0; i &lt; faces.size(); i++) {
                     rectangle(frame, faces[i], Scalar(0, 0, 255), 2);
                 }
 
@@ -263,7 +263,7 @@
                 if (c == 'q' || c == 27) break;
                 if (c == 's' || c == 'S') {
                     imwrite("snapshot.jpg", frame);
-                    cout << "Imagem salva como snapshot.jpg" << endl;
+                    cout &lt;&lt; "Imagem salva como snapshot.jpg" &lt;&lt; endl;
                 }
             }
 
@@ -275,20 +275,19 @@
     </section>
 
     <section>
-      <h2>Resultados e Análises</h2>
+      <h2>Resultados</h2>
       <img src="parte1.png" width="1000">
       <img src="parte2.jpg" width="1000">
-
-      <p>
-        Pelos resultados obtidos, percebemos que:
-        
-      </p>
     </section>
     
     <section>
       <h2>Conclusões e Comentários Finais</h2>
       <p>
+        Com base nos resultados obtidos, observamos que o primeiro código apresentou limitações na detecção de rostos, não identificando todos os indivíduos presentes na imagem estática. Esse resultado pode estar relacionado a fatores como variações de iluminação, sombreamento e ângulo dos rostos.<br>
         
+        Por outro lado, o segundo código demonstrou melhor desempenho ao identificar corretamente todos os rostos na captura em tempo real. A detecção proporcionada pelo uso da webcam, permite ao algoritmo analisar múltiplos quadros por segundo, compensando as variações de luz e posição. Dessa forma, o segundo método se mostrou mais robusto e eficaz para aplicações práticas de detecção facial dinâmica.<br>
+        
+        Em resumo, enquanto o primeiro código é mais adequado para testes simples em imagens estáticas, o segundo oferece maior precisão e adaptabilidade em ambientes reais, evidenciando a importância de condições de iluminação e movimento para o desempenho do reconhecimento facial.<br>      
       </p>
     </section>
 
