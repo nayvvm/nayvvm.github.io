@@ -6,7 +6,7 @@ Um player de vídeos de receita (YouTube) controlado por gestos da sua mão.
 
 ---
 
-### Como Instalar e Rodar (Para Leigos)
+### Como Instalar e Rodar 
 
 Siga estes 4 passos.
 
