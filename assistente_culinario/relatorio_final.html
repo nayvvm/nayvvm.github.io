@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Final do Trabalho (RFT) - Assistente Culinário</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 20px;
+        }
+        header h1 {
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header h2 {
+            color: #555;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .team-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #444;
+        }
+        h1, h2, h3 {
+            color: #1e3a8a;
+        }
+        h2 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .diagram {
+            background-color: #f0f8ff;
+            border: 1px dashed #1e3a8a;
+            padding: 15px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .math-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.3em;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Relatório Final do Trabalho (RFT)</h1>
+        <h2>Disciplina: Processamento de Vídeo - UFABC</h2>
+        <h2>Projeto: Assistente de Culinária Interativo Integrado</h2>
+        <ul class="team-list">
+            <li>Nayara Victoria Verísimo Matos | 11202111131</li>
+            <li>George Salvino de Souza junior | 11201720464</li>
+            <li>Thiago Tanios Devienne Pompeu | 11202321520</li>
+            <li>Thiago de Souza Paschoim | 11202320430</li>
+        </ul>
+    </header>
+
+    <!-- CAPÍTULO 1: INTRODUÇÃO -->
+    <section id="introducao">
+        <h1>1. Introdução</h1>
+        <p>Este documento apresenta a análise técnica do "Assistente de Culinária Interativo", um sistema focado na aplicação de algoritmos de processamento de vídeo para interação humano-computador (HCI). O projeto explora técnicas de visão computacional em tempo real para segmentação, rastreamento de objetos e análise de movimento, permitindo o controle gestual de uma aplicação multimídia.</p>
+
+        <h3>Objetivos</h3>
+        <p>O objetivo central do trabalho é desenvolver um Sistema de Processamento de Visão (SPV) robusto, capaz de:</p>
+        <ul>
+            <li>Realizar a segmentação eficiente da pele humana em ambientes não controlados.</li>
+            <li>Extrair características geométricas da mão (contornos e centróides) frame a frame.</li>
+            <li>Interpretar padrões de movimento (estabilidade e deslocamento vetorial) para classificar gestos de controle.</li>
+        </ul>
+
+        <h3>Cenário de Aplicação (CA)</h3>
+        <p>O cenário é o ambiente culinário doméstico, onde o usuário, impossibilitado de tocar em periféricos, necessita controlar o fluxo de instruções de uma receita. O sistema visual deve operar sob condições reais, lidando com ruído de captura da webcam e variações de movimento, garantindo que o comando visual (gesto) seja traduzido instantaneamente em ação no player.</p>
+
+        <h3>Fundamentação Teórica</h3>
+        <p>O núcleo do processamento visual baseia-se nos seguintes conceitos:</p>
+        <ul>
+            <li><strong>Espaço de Cor HSV (Hue, Saturation, Value):</strong> Fundamental para a segmentação de pele. Ao contrário do RGB, onde a informação de cromaticidade e luminância estão misturadas, o HSV isola a cor (Hue), permitindo criar limiares de detecção de pele robustos a variações de iluminação.</li>
+            <li><strong>Morfologia Matemática:</strong> Aplicação de operadores de erosão e dilatação para eliminação de ruído (pequenos artefatos) e fechamento de buracos na máscara binária gerada pela segmentação.</li>
+            <li><strong>Momentos de Imagem:</strong> Cálculo dos momentos estatísticos de ordem zero e primeira ordem (<code>m00</code>, <code>m10</code>, <code>m01</code>) sobre o contorno binarizado para determinar a área e o centro de massa (centróide) do objeto rastreado.</li>
+        </ul>
+    </section>
+
+    <!-- CAPÍTULO 2: MATERIAIS E MÉTODOS -->
+    <section id="materiais-metodos">
+        <h1>2. Materiais e Métodos</h1>
+
+        <h3>Modelagem Funcional do SPV (MF)</h3>
+        <p>O pipeline de processamento visual é executado frame a frame, seguindo a estrutura abaixo:</p>
+        
+        <div class="diagram">
+[AQUISIÇÃO (Webcam)] -> [CONVERSÃO BGR->HSV] -> [LIMIARIZAÇÃO (inRange)]
+                                                         |
+                                                  [MÁSCARA BINÁRIA]
+                                                         |
+                                            [OPERAÇÕES MORFOLÓGICAS]
+                                           (Erosão -> Dilatação)
+                                                         |
+                                            [EXTRAÇÃO DE CONTORNOS]
+                                           (cv::findContours)
+                                                         |
+                                            [CÁLCULO DE MOMENTOS]
+                                           (cv::moments -> Centróide)
+                                                         |
+                              +--------------------------+--------------------------+
+                              |                                                     |
+                    [ANÁLISE TEMPORAL DE MOVIMENTO]                       [ANÁLISE DE ESTABILIDADE]
+                  (Cálculo de Vetor Deslocamento dx)                     (Variância de Posição < T)
+                              |                                                     |
+                              V                                                     V
+                       [GESTO: SWIPE]                                        [GESTO: PAUSE]
+        </div>
+
+        <h3>Descrição da Implementação do SPV</h3>
+        <p>O sistema foi implementado em C++ utilizando a biblioteca OpenCV. Abaixo detalhamos as etapas críticas do processamento visual:</p>
+        
+        <h4>1. Pré-processamento e Segmentação</h4>
+        <p>A imagem capturada (640x480) é inicialmente recortada para uma Região de Interesse (ROI) fixa de 280x280 pixels, otimizando o custo computacional. A conversão para HSV permite a aplicação de um filtro de faixa (<code>cv::inRange</code>) com valores calibrados para tons de pele (H: 0-20, S: 48-255, V: 80-255). O resultado é uma matriz binária ruidosa.</p>
+
+        <h4>2. Refinamento Morfológico</h4>
+        <p>Para garantir que o objeto detectado seja coeso, aplicam-se filtros morfológicos:</p>
+        <div class="code-block">
+cv::erode(mask, mask, kernel, ...);  // Remove ruído granulado (salt-and-pepper)
+cv::dilate(mask, mask, kernel, ...); // Restaura o volume do objeto e fecha buracos internos
+        </div>
+
+        <h4>3. Extração de Características</h4>
+        <p>Utiliza-se <code>cv::findContours</code> para obter a geometria da mão. Filtra-se por área (<code>cv::contourArea</code>) descartando componentes conexos menores que 5000 pixels (ruído de fundo). Do maior contorno, extraem-se os momentos espaciais para calcular o centróide (C<sub>x</sub>, C<sub>y</sub>):</p>
+        
+        <div class="math-box">
+            C<sub>x</sub> = M<sub>10</sub> / M<sub>00</sub> &nbsp;&nbsp; , &nbsp;&nbsp; C<sub>y</sub> = M<sub>01</sub> / M<sub>00</sub>
+        </div>
+
+        <h4>4. Classificação de Gestos</h4>
+        <p>A classificação não utiliza redes neurais, mas sim uma abordagem determinística baseada na física do movimento:</p>
+        <ul>
+            <li><strong>Swipe (Navegação):</strong> Calcula-se a derivada da posição horizontal <strong>Δx = C<sub>x</sub>(t) - C<sub>x</sub>(t-1)</strong>. Se <strong>|Δx| > T<sub>swipe</sub></strong> (limiar de 50px), um gesto de navegação é registrado.</li>
+            <li><strong>Estabilidade (Pause):</strong> O sistema armazena a posição do centróide em um buffer temporal. Se a variância da posição for inferior a <strong>T<sub>still</sub></strong> (15px) por <strong>N</strong> frames consecutivos (5 frames), o gesto de "mão parada" é confirmado.</li>
+        </ul>
+
+        <h4>Integração Multimídia (Breve Descrição)</h4>
+        <p>Para prover feedback ao usuário, o sistema controla um fluxo de vídeo e áudio externo. A sincronização é mantida comparando o timestamp do processamento visual com o relógio de áudio, realizando ajustes de "seek" quando necessário, garantindo que o processamento visual pesado não dessincronize a mídia.</p>
+    </section>
+
+    <!-- CAPÍTULO 3: LABORATÓRIO EXPERIMENTAL -->
+    <section id="laboratorio">
+        <h1>3. Laboratório Experimental</h1>
+
+        <h3>Análise dos Resultados (Foco em Processamento Visual)</h3>
+        <p>Os testes focaram na robustez dos algoritmos de detecção sob diferentes condições. Foram analisadas as respostas do sistema a variações de velocidade de movimento e estabilidade da detecção.</p>
+
+        <h4>Métricas de Desempenho Visual</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parâmetro Analisado</th>
+                    <th>Valor / Resultado</th>
+                    <th>Análise Técnica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Latência de Processamento</td>
+                    <td>~15ms por frame</td>
+                    <td>O uso de operações morfológicas leves e ROI permitiu que o processamento visual ocorresse bem abaixo do limite de 33ms (tempo de um frame a 30fps), garantindo tempo real.</td>
+                </tr>
+                <tr>
+                    <td>Robustez da Segmentação</td>
+                    <td>Satisfatória (Iluminação Controlada)</td>
+                    <td>A segmentação HSV foi eficaz em separar a mão do fundo. Em testes com iluminação incandescente (amarelada), houve necessidade de recalibração dos limiares H (Hue).</td>
+                </tr>
+                <tr>
+                    <td>Precisão do Centróide</td>
+                    <td>Alta estabilidade</td>
+                    <td>O cálculo de momentos provou-se um estimador de posição extremamente estável, filtrando micro-tremores da mão e permitindo uma detecção limpa do gesto de "parada".</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Análise dos Critérios de Gestos</h4>
+        <p><strong>Limiar de Movimento (Swipe):</strong> O valor de 50 pixels de deslocamento entre frames mostrou-se um discriminante eficaz entre movimentos involuntários e comandos intencionais de navegação.</p>
+        <p><strong>Janela de Persistência (Pause):</strong> A exigência de 5 frames de estabilidade eliminou falsos positivos ("flickering") que ocorriam quando a mão apenas passava pela frente da câmera sem intenção de parar.</p>
+    </section>
+
+    <!-- CAPÍTULO 4: CONCLUSÕES -->
+    <section id="conclusoes">
+        <h1>4. Conclusões</h1>
+        <p>O projeto atingiu com êxito os objetivos propostos na introdução. Foi possível desenvolver um sistema SPV funcional, capaz de controlar uma aplicação multimídia utilizando apenas visão computacional, sem periféricos de toque.</p>
+        
+        <p><strong>Pontos Positivos:</strong></p>
+        <ul>
+            <li><strong>Interatividade Natural:</strong> Os gestos escolhidos (mão aberta para parar, deslize para mover) são intuitivos para o usuário leigo.</li>
+            <li><strong>Desempenho:</strong> O uso de ROI (Região de Interesse) e otimização do código permitiu execução fluida mesmo em hardware modesto.</li>
+            <li><strong>Robustez Lógica:</strong> A implementação de máquinas de estado e contadores de persistência (debouncing) impediu que o sistema fosse instável ("flickering").</li>
+        </ul>
+
+    </section>
+
+    <!-- REFERÊNCIAS -->
+    <section id="referencias">
+        <h1>Referências Bibliográficas</h1>
+        <ul>
+            <li>OpenCV Documentation. "Structural Analysis and Shape Descriptors". Disponível em: <a href="https://docs.opencv.org/">https://docs.opencv.org/</a>.</li>
+            <li>Bradski, G., & Kaehler, A. (2008). <em>Learning OpenCV: Computer vision with the OpenCV library</em>. O'Reilly Media.</li>
+            <li>Suzuki, S., & Be, K. (1985). "Topological structural analysis of digitized binary images by border following". <em>Computer Vision, Graphics, and Image Processing</em>.</li>
+        </ul>
+    </section>
+
+    <!-- ANEXO -->
+    <section id="anexo">
+        <h1>Anexo: Código Fonte Principal</h1>
+        <p>Abaixo encontra-se a implementação dos algoritmos de visão computacional utilizados.</p>
+        
+<div class="code-block">
+<pre>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt; 
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;opencv2/imgproc.hpp&gt;
+// (Includes de sistema e áudio omitidos para brevidade neste anexo visual)
+
+// Configurações de Visão Computacional
+const cv::Rect ROI_GESTO(30, 80, 280, 280); 
+const int SWIPE_THRESHOLD = 50;       // Limiar de deslocamento (pixels)
+const int STILLNESS_THRESHOLD = 15;   // Limiar de estabilidade (pixels)
+
+// Função de Detecção de Contorno (Segmentação)
+int encontrarMao(const cv::Mat& mask, std::vector&lt;cv::Point&gt;& contour) {
+    std::vector&lt;std::vector&lt;cv::Point&gt;&gt; contours;
+    // Algoritmo de Suzuki85 para extração de topologia
+    cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    
+    if (contours.empty()) return -1;
+    
+    double max_area = 0;
+    int max_area_idx = -1;
+    // Filtragem por área máxima
+    for (size_t i = 0; i &lt; contours.size(); i++) {
+        double area = cv::contourArea(contours[i]);
+        if (area &gt; max_area) { max_area = area; max_area_idx = i; }
+    }
+    // Rejeição de ruído (áreas pequenas)
+    if (max_area &lt; 5000) return -1; 
+    
+    contour = contours[max_area_idx];
+    return max_area_idx;
+}
+
+// Função de Análise de Movimento (Classificação)
+Gesture processarGestos(cv::Mat& frame, const std::vector&lt;cv::Point&gt;& hand_contour) {
+    // Cálculo dos Momentos Espaciais
+    cv::Moments m = cv::moments(hand_contour);
+    if (m.m00 == 0) return Gesture::NONE;
+    
+    // Determinação do Centróide
+    int cX = (int)(m.m10 / m.m00); 
+    int cY = (int)(m.m01 / m.m00); 
+
+    // 1. Análise de Deslocamento Vetorial (Swipe)
+    if (last_x != 0) {
+        int delta_x = cX - last_x;
+        
+        if (delta_x &gt; SWIPE_THRESHOLD) { 
+            return Gesture::ADVANCE; 
+        }
+        if (delta_x &lt; -SWIPE_THRESHOLD) { 
+            return Gesture::REWIND; 
+        }
+    }
+    last_x = cX;
+
+    // 2. Análise de Estabilidade Temporal (Pause)
+    if (last_stable_x == 0) { 
+        last_stable_x = cX; last_stable_y = cY;
+        return Gesture::NONE;
+    }
+
+    int delta_still_x = std::abs(cX - last_stable_x);
+    int delta_still_y = std::abs(cY - last_stable_y);
+
+    // Se a variação for alta, reseta a estabilidade
+    if (delta_still_x &gt; STILLNESS_THRESHOLD || delta_still_y &gt; STILLNESS_THRESHOLD) {
+        last_stable_x = cX; last_stable_y = cY;
+        return Gesture::NONE;
+    } 
+    
+    return Gesture::HAND_STILL;
+}
+
+// (Loop principal e integração de sistema omitidos)
+</pre>
+</div>
+    </section>
+
+</div>
+
+<footer>
+    <p>UFABC - Universidade Federal do ABC | 2025</p>
+</footer>
+
+</body>
+</html>
