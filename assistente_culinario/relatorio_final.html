@@ -103,6 +103,26 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        /* Estilo específico para o container de vídeo */
+        .video-wrapper {
+            text-align: center;
+            margin: 30px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .video-caption {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
         footer {
             text-align: center;
             margin-top: 50px;
@@ -126,7 +146,6 @@
         </ul>
     </header>
 
-    <!-- CAPÍTULO 1: INTRODUÇÃO -->
     <section id="introducao">
         <h1>1. Introdução</h1>
         <p>Este documento apresenta a análise técnica do "Assistente de Culinária Interativo", um sistema focado na aplicação de algoritmos de processamento de vídeo para interação humano-computador (HCI). O projeto explora técnicas de visão computacional em tempo real para segmentação, rastreamento de objetos e análise de movimento, permitindo o controle gestual de uma aplicação multimídia.</p>
@@ -151,7 +170,6 @@
         </ul>
     </section>
 
-    <!-- CAPÍTULO 2: MATERIAIS E MÉTODOS -->
     <section id="materiais-metodos">
         <h1>2. Materiais e Métodos</h1>
 
@@ -172,13 +190,13 @@
                                             [CÁLCULO DE MOMENTOS]
                                            (cv::moments -> Centróide)
                                                          |
-                              +--------------------------+--------------------------+
-                              |                                                     |
-                    [ANÁLISE TEMPORAL DE MOVIMENTO]                       [ANÁLISE DE ESTABILIDADE]
-                  (Cálculo de Vetor Deslocamento dx)                     (Variância de Posição < T)
-                              |                                                     |
-                              V                                                     V
-                       [GESTO: SWIPE]                                        [GESTO: PAUSE]
+                             +--------------------------+--------------------------+
+                             |                                                     |
+                   [ANÁLISE TEMPORAL DE MOVIMENTO]                        [ANÁLISE DE ESTABILIDADE]
+                 (Cálculo de Vetor Deslocamento dx)                      (Variância de Posição < T)
+                             |                                                     |
+                             V                                                     V
+                        [GESTO: SWIPE]                                     [GESTO: PAUSE]
         </div>
 
         <h3>Descrição da Implementação do SPV</h3>
@@ -212,10 +230,19 @@ cv::dilate(mask, mask, kernel, ...); // Restaura o volume do objeto e fecha bura
         <p>Para prover feedback ao usuário, o sistema controla um fluxo de vídeo e áudio externo. A sincronização é mantida comparando o timestamp do processamento visual com o relógio de áudio, realizando ajustes de "seek" quando necessário, garantindo que o processamento visual pesado não dessincronize a mídia.</p>
     </section>
 
-    <!-- CAPÍTULO 3: LABORATÓRIO EXPERIMENTAL -->
     <section id="laboratorio">
         <h1>3. Laboratório Experimental</h1>
 
+        <h3>Demonstração Prática</h3>
+        <p>O vídeo abaixo demonstra o funcionamento do sistema em tempo real, evidenciando a resposta aos gestos de navegação e pausa.</p>
+        
+        <div class="video-wrapper">
+            <video controls>
+                <source src="teste.webm" type="video/webm">
+                Seu navegador não suporta a exibição de vídeos. <a href="teste.webm">Baixe o vídeo aqui</a>.
+            </video>
+            <div class="video-caption">Figura 1: Teste de funcionamento - Reconhecimento de gestos (Swipe e Pause).</div>
+        </div>
         <h3>Análise dos Resultados (Foco em Processamento Visual)</h3>
         <p>Os testes focaram na robustez dos algoritmos de detecção sob diferentes condições. Foram analisadas as respostas do sistema a variações de velocidade de movimento e estabilidade da detecção.</p>
 
@@ -252,7 +279,6 @@ cv::dilate(mask, mask, kernel, ...); // Restaura o volume do objeto e fecha bura
         <p><strong>Janela de Persistência (Pause):</strong> A exigência de 5 frames de estabilidade eliminou falsos positivos ("flickering") que ocorriam quando a mão apenas passava pela frente da câmera sem intenção de parar.</p>
     </section>
 
-    <!-- CAPÍTULO 4: CONCLUSÕES -->
     <section id="conclusoes">
         <h1>4. Conclusões</h1>
         <p>O projeto atingiu com êxito os objetivos propostos na introdução. Foi possível desenvolver um sistema SPV funcional, capaz de controlar uma aplicação multimídia utilizando apenas visão computacional, sem periféricos de toque.</p>
@@ -266,7 +292,6 @@ cv::dilate(mask, mask, kernel, ...); // Restaura o volume do objeto e fecha bura
 
     </section>
 
-    <!-- REFERÊNCIAS -->
     <section id="referencias">
         <h1>Referências Bibliográficas</h1>
         <ul>
@@ -276,7 +301,6 @@ cv::dilate(mask, mask, kernel, ...); // Restaura o volume do objeto e fecha bura
         </ul>
     </section>
 
-    <!-- ANEXO -->
     <section id="anexo">
         <h1>Anexo: Código Fonte Principal</h1>
         <p>Abaixo encontra-se a implementação dos algoritmos de visão computacional utilizados.</p>
