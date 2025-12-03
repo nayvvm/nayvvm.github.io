@@ -117,22 +117,27 @@
       margin-bottom: 10px;
     }
 
+    h3 {
+      color: #2c4a9a;
+      margin-top: 20px;
+    }
+
     p {
       line-height: 1.6;
     }
 
-    /* Estilo para os diagramas de bloco e fluxogramas */
-        pre {
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #bdc3c7;
-            font-family: 'Courier New', Courier, monospace;
-            line-height: 1.4;
-            overflow-x: auto; /* Garante que o diagrama não quebre o layout */
-            white-space: pre;
-            font-size: 14px;
-        }
+    /* Estilo para os diagramas de bloco, fluxogramas e código */
+    pre {
+      background-color: #ecf0f1;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #bdc3c7;
+      font-family: 'Courier New', Courier, monospace;
+      line-height: 1.4;
+      overflow-x: auto; /* Garante que o diagrama não quebre o layout */
+      white-space: pre;
+      font-size: 14px;
+    }
 
     ul.membros {
       padding-left: 20px;
@@ -384,6 +389,38 @@
 \-------------------------/
         </pre>
         
+      </section>
+
+      <section>
+        <h1>Instruções de Instalação e Execução</h1>
+        <p>Para utilizar o programa, siga os passos abaixo no terminal do Linux. Certifique-se de que a webcam esteja conectada.</p>
+
+        <h3>1. Download do Código Fonte</h3>
+        <p>Baixe o projeto do GitHub e extraia o arquivo ZIP.</p>
+        <ul>
+            <li>Link do Repositório: <a href="https://github.com/nayvvm/nayvvm.github.io" target="_blank">https://github.com/nayvvm/nayvvm.github.io</a></li>
+        </ul>
+
+        <h3>2. Instalação das Dependências</h3>
+        <p>Abra o terminal e execute os seguintes comandos (um bloco por vez) para instalar as bibliotecas necessárias:</p>
+        <pre>
+sudo apt update
+sudo apt install build-essential pkg-config libopencv-dev libsfml-dev libopenal-dev zenity ffmpeg curl
+
+sudo apt install pipx
+pipx ensurepath
+pipx install yt-dlp
+</pre>
+
+        <h3>3. Compilação e Execução</h3>
+        <p>Navegue até a pasta do projeto (ajuste o caminho se necessário), compile o código C++ e execute o programa:</p>
+        <pre>
+cd /home/ufabc/Downloads/nayvvm.github.io-main/assistente_culinario
+
+g++ main.cpp -o assistente_culinario $(pkg-config --cflags --libs opencv4) -lsfml-audio -lsfml-system
+
+./assistente_culinario
+</pre>
       </section>
 
       <section>
